@@ -32,6 +32,10 @@ test_that("no request source blocked", {
 test_that("basic function works", {
   npn_set_env(get_test_env())
 
+  if(!check_service()){
+    skip("Service is down")
+  }
+
   vcr::use_cassette("npn_download_status_data_basic_1", {
     some_data <- npn_download_status_data(
       "Unit Test",
@@ -130,6 +134,9 @@ test_that("file download works", {
   }
 
   npn_set_env(get_test_env())
+  if(!check_service()){
+    skip("Service is down")
+  }
 
   test_download_path <- "unit-test-download.csv"
 
@@ -179,6 +186,9 @@ test_that("climate data flag works", {
   }
 
   npn_set_env(get_test_env())
+  if(!check_service()){
+    skip("Service is down")
+  }
   vcr::use_cassette("npn_download_status_data_climate_flag_1", {
     some_data <- npn_download_status_data(
       "Unit Test",
@@ -226,6 +236,9 @@ test_that("higher taxonomic ordering works for status data", {
   }
 
   npn_set_env(get_test_env())
+  if(!check_service()){
+    skip("Service is down")
+  }
 
   #Check the different taxonomic levels for
   #status data
@@ -297,7 +310,9 @@ test_that("higher taxonomic ordering works for individual phenometrics", {
   }
 
   npn_set_env(get_test_env())
-
+  if(!check_service()){
+    skip("Service is down")
+  }
 
   #Check the different taxonomic levels for
   #status data
@@ -371,7 +386,9 @@ test_that("higher taxonomic ordering works for site phenometrics", {
   }
 
   npn_set_env(get_test_env())
-
+  if(!check_service()){
+    skip("Service is down")
+  }
   #Check the different taxonomic levels for
   #status data
 
@@ -444,7 +461,9 @@ test_that("higher taxonomic ordering works for magnitude phenometrics", {
   }
 
   npn_set_env(get_test_env())
-
+  if(!check_service()){
+    skip("Service is down")
+  }
 
   #Check the different taxonomic levels for
   #status data
@@ -518,6 +537,9 @@ test_that("higher level taxonomic agg and pheno agg works for site level",{
   }
 
   npn_set_env(get_test_env())
+  if(!check_service()){
+    skip("Service is down")
+  }
 
   vcr::use_cassette("npn_download_site_phenometrics_pheno_agg_1", {
     some_data <- npn_download_site_phenometrics(
@@ -576,6 +598,9 @@ test_that("higher level taxonomic agg works for magnitude", {
   }
 
   npn_set_env(get_test_env())
+  if(!check_service()){
+    skip("Service is down")
+  }
 
   vcr::use_cassette("npn_download_magnitude_phenometrics_pheno_agg_1", {
     some_data <- npn_download_magnitude_phenometrics(
@@ -632,7 +657,9 @@ test_that("six concordance works for status", {
   }
 
   npn_set_env(get_test_env())
-
+  if(!check_service()){
+    skip("Service is down")
+  }
   vcr::use_cassette("npn_download_status_data_six_concord_1", {
     some_data <- npn_download_status_data(
      "Unit Test",
@@ -721,8 +748,11 @@ test_that("wkt filter works", {
     skip("Skipping long tests")
   }
 
-  npn_set_env(get_test_env())
 
+  npn_set_env(get_test_env())
+  if(!check_service()){
+    skip("Service is down")
+  }
   #wkt is for CO
   wkt_def <- "POLYGON ((-102.04224 36.993083,-109.045223 36.999084,-109.050076 41.000659,-102.051614 41.002377,-102.04224 36.993083))"
 
@@ -835,6 +865,9 @@ test_that("frequency params work", {
   }
 
   npn_set_env(get_test_env())
+  if(!check_service()){
+    skip("Service is down")
+  }
 
   vcr::use_cassette("npn_download_site_phenometrics_frequency_1", {
     some_data <- npn_download_site_phenometrics(

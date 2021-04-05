@@ -1,12 +1,17 @@
 context("npn_geospatial")
 
 
-test_that("npn_get_layer_details works",{
-  npn_set_env(get_test_env())
+is_geo_service_up <- check_geo_service()
 
-  vcr::use_cassette("npn_get_layer_details_1", {
+test_that("npn_get_layer_details works",{
+
+  npn_set_env(get_test_env())
+  if(!is_geo_service_up){
+    skip("Geo Service is down")
+  }
+  #vcr::use_cassette("npn_get_layer_details_1", {
     layers <- npn_get_layer_details()
-  })
+  #})
 
 
 
@@ -17,7 +22,7 @@ test_that("npn_get_layer_details works",{
 
 
 test_that("npn_download_geospatial works", {
-#  skip_on_cran()
+
   skip("No file downloads")
 
   npn_set_env(get_test_env())
@@ -94,8 +99,11 @@ test_that("npn_download_geospatial format param working", {
 
 
 test_that("npn_get_point_data functions", {
-  npn_set_env(get_test_env())
 
+  npn_set_env(get_test_env())
+  if(!is_geo_service_up){
+    skip("Geo Service is down")
+  }
   vcr::use_cassette("npn_get_point_data_1", {
     value <- npn_get_point_data("gdd:agdd",38.8,-110.5,"2019-05-05")
   })
@@ -114,6 +122,7 @@ test_that("npn_get_point_data functions", {
 
 
 test_that("npn_custom_agdd functions",{
+
   npn_set_env(get_test_env())
 
   vcr::use_cassette("npn_get_custom_agdd_time_series_1", {
@@ -134,3 +143,35 @@ test_that("npn_custom_agdd functions",{
   expect_equal(round(res[15,"agdd"]),34)
 
 })
+
+test_that("npn_get_agdd_point_data works",{
+
+  npn_set_env(get_test_env())
+
+  if(!check_service()){
+    skip("Data Service is down")
+  }
+
+  res <- npn_get_agdd_point_data("gdd:agdd",32.4,-110,"2020-01-15")
+
+  expect_is(res,"numeric")
+  if(res > 0){
+    expect_equal(round(res), 146)
+  }
+})
+
+
+test_that("npn_get_custom_agdd_raster works",{
+
+  npn_set_env(get_test_env())
+
+  if(!check_data_service()){
+    skip("Data Service is down")
+  }
+
+  res <- npn_get_custom_agdd_raster("simple","NCEP","Fahrenheit","2020-01-01","2020-01-15",32)
+
+  expect_is(res,"RasterLayer")
+})
+
+
